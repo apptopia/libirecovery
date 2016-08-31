@@ -1,0 +1,25 @@
+before_build:
+  - cmd: nuget restore
+  - cmd: mkdir ext
+  - cmd: choco install -y wget
+  - cmd: wget "http://downloads.sourceforge.net/project/gnuwin32/readline/5.0-1/readline-5.0-1-bin.zip" -O ext\readline-5.0-1-bin.zip
+  - cmd: 7z x ext\readline-5.0-1-bin.zip -oext\readline-5.0
+
+build_script:
+  - msbuild libirecovery.sln /p:Configuration=Debug /p:Platform=x86 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - msbuild libirecovery.sln /p:Configuration=Debug /p:Platform=x64 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - msbuild libirecovery.sln /p:Configuration=Release /p:Platform=x86 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - msbuild libirecovery.sln /p:Configuration=Release /p:Platform=x64 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+
+on_success:
+  - cmd: choco install wget
+  - cmd: wget http://coapp.org/files/CoApp.Tools.Powershell.msi
+  - cmd: start /wait msiexec /qb /i CoApp.Tools.Powershell.msi
+  - ps: .\CreateNuGetPackage.ps1 -Build $ENV:APPVEYOR_BUILD_NUMBER
+  - cmd: appveyor PushArtifact libirecovery.0.1.1.%APPVEYOR_BUILD_NUMBER%.nupkg
+  - cmd: appveyor PushArtifact libirecovery.symbols.0.1.1.%APPVEYOR_BUILD_NUMBER%.nupkg
+  - cmd: appveyor PushArtifact libirecovery.redist.0.1.1.%APPVEYOR_BUILD_NUMBER%.nupkg
+
+nuget:
+  project_feed: true
+  account_feed: true
