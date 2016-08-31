@@ -23,9 +23,20 @@
 #include "config.h"
 #endif
 
+#ifdef _MSC_VER
+#define PACKAGE_URL "https://github.com/libimobiledevice/libirecovery"
+
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+#define sleep(x) Sleep((x) *1000)
+#include <getopt.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
+#ifndef _MSC_VER
 #include <unistd.h>
+#endif
 #include <string.h>
 #include <libirecovery.h>
 #include <readline/readline.h>
