@@ -1,0 +1,62 @@
+configurations {
+    Toolset { 
+        key : "PlatformToolset"; 
+        choices: { v140 };  
+        // Explicitly Not including pivot variants:  "WindowsKernelModeDriver8.0", "WindowsApplicationForDrivers8.0", "WindowsUserModeDriver8.0" 
+
+        // We're normalizing out the concept of the v140 platform -- Overloading the $(PlatformToolset) variable for additional pivots was a dumb idea.
+        v140.condition = "( $(PlatformToolset.ToLower().IndexOf('v140')) > -1 Or '$(PlatformToolset.ToLower())' == 'windowskernelmodedriver8.0' Or '$(PlatformToolset.ToLower())' == 'windowsapplicationfordrivers8.0' Or '$(PlatformToolset.ToLower())' == 'windowsusermodedriver8.0' )";
+    };
+}
+
+nuget{
+    nuspec{
+        id = libirecovery;
+        version : 0.1.1.{build};
+        title: libirecovery;
+        authors: {libimobiledevice Project};
+        owners: {quamotion};
+        licenseUrl: "http://opensource.org/licenses/LGPL-2.1";
+        projectUrl: "http://www.libimobiledevice.org/";
+        iconUrl: "http://www.nuget.org/Content/Images/packageDefaultIcon-50x50.png";
+        requireLicenseAcceptance:false;
+        description: "libirecovery is a cross-platform library which implements communication to iBoot/iBSS found on Apple's iOS devices via USB. A command-line utility is also provided.";
+        summary: "libirecovery is a cross-platform library which implements communication to iBoot/iBSS found on Apple's iOS devices via USB. A command-line utility is also provided.";
+        copyright: "https://github.com/libimobiledevice/libirecovery/blob/master/COPYING";
+        releaseNotes: "Release 0.1.1 of libirecovery. See https://github.com/libimobiledevice-win32/libirecovery/tree/msvc-1.0.10 for more.";
+        tags: { libirecovery, libimobiledevice, native };
+    }
+
+    dependencies {
+        packages : {
+        };
+    }
+
+    files{ 
+        include: { "include\*.h" };
+
+	[x86,v140,debug] {
+            lib: Win32\Debug\libirecovery.lib;
+            bin: { Win32\Debug\libirecovery.dll, Win32\Debug\irecovery.exe, Win32\Debug\readline5.dll, Win32\Debug\history5.dll };
+            symbols: Win32\Debug\libirecovery.pdb;
+        }
+
+	[x86,v140,release] {
+            lib: Win32\Release\libirecovery.lib;
+            bin: { Win32\Release\libirecovery.dll, Win32\Release\irecovery.exe, Win32\Release\readline5.dll, Win32\Release\history5.dll };
+            symbols: Win32\Release\libirecovery.pdb;
+        }
+
+	[x64,v140,debug] {
+            lib: x64\Debug\libirecovery.lib;
+            bin: x64\Debug\libirecovery.dll;
+            symbols: x64\Debug\libirecovery.pdb;
+        }
+
+	[x64,v140,release] {
+            lib: x64\Release\libirecovery.lib;
+            bin: x64\Release\libirecovery.dll;
+            symbols: x64\Release\libirecovery.pdb;
+        }
+    }
+}

@@ -1,3 +1,12 @@
+*.filters
+packages/
+ext/
+.vs/
+*.VC.opendb
+*.VC.db
+*.suo
+x64/
+Win32/
 *.[oa]
 *~
 *.po
