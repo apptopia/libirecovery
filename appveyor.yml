@@ -7,8 +7,8 @@ before_build:
   - cmd: "%VCPKG_ROOT%\\bootstrap-vcpkg.bat"
   - cmd: "%VCPKG_ROOT%\\vcpkg version"
   - cmd: "%VCPKG_ROOT%\\vcpkg integrate install"
-  - cmd: "%VCPKG_ROOT%\\vcpkg install libimobiledevice:x86-windows"
-  - cmd: "%VCPKG_ROOT%\\vcpkg install libimobiledevice:x64-windows"
+  - cmd: "%VCPKG_ROOT%\\vcpkg install libimobiledevice:x86-windows readline:x86-windows"
+  - cmd: "%VCPKG_ROOT%\\vcpkg install libimobiledevice:x64-windows readline:x64-windows"
 
 build_script:
   - msbuild libirecovery.sln /p:Configuration=Debug /p:Platform=x86 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
