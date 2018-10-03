@@ -47,6 +47,7 @@ jobs:
     displayName: 'Debug build'
   - script: |
       mkdir %BUILD_ARTIFACTSTAGINGDIRECTORY%\libirecovery\%RID%\bin\
+      copy vcpkg\installed\%BUILD_ARCH%-windows\bin\readline.dll %BUILD_ARTIFACTSTAGINGDIRECTORY%\libirecovery\%RID%\bin\
       copy %PLATFORM%\Release\irecovery.dll %BUILD_ARTIFACTSTAGINGDIRECTORY%\libirecovery\%RID%\bin\
       copy tools\%PLATFORM%\Release\*.exe %BUILD_ARTIFACTSTAGINGDIRECTORY%\libirecovery\%RID%\bin\
     displayName: 'Install'
