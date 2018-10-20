@@ -194,6 +194,9 @@ jobs:
       echo $BUILD_REPOSITORY_URI\n >> $BUILD_ARTIFACTSTAGINGDIRECTORY/libirecovery/$RID/gitinfo
       echo $BUILD_SOURCEVERSION >> $BUILD_ARTIFACTSTAGINGDIRECTORY/libirecovery/$RID/gitinfo
     displayName: Install
+  - script: |
+      git archive --format tar.gz -o $BUILD_ARTIFACTSTAGINGDIRECTORY/libirecovery/libirecovery.orig.tar.gz $BUILD_SOURCEVERSION
+    displayName: Build source tarball
   - task: PublishBuildArtifacts@1
     inputs:
       pathtoPublish: '$(Build.ArtifactStagingDirectory)/libirecovery'
