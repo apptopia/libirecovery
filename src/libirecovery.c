@@ -1402,13 +1402,12 @@ IRECV_API irecv_error_t irecv_open_with_ecid(irecv_client_t* pclient, unsigned l
 				}
 
 				*pclient = client;
-
-				libusb_free_device_list(usb_device_list, 1);
-
 				ret = IRECV_E_SUCCESS;
+				break;
 			}
 		}
 	}
+	libusb_free_device_list(usb_device_list, 1);
 #endif
 #else
 	ret = mobiledevice_connect(pclient, ecid);
